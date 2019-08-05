@@ -217,7 +217,7 @@ prepare_args <- function(nframes, fps, duration, detail, renderer, device, ref_f
   }
   args$detail <- detail %?% chunk_args$detail %||% getOption('gganimate.detail', 1)
   args$renderer <- renderer %?% chunk_args$renderer %||% getOption('gganimate.renderer', gifski_renderer())
-  args$device <- tolower(device %?% chunk_args$device %||% getOption('gganimate.device', 'png'))
+  args$device <- device %?% chunk_args$device %||% getOption('gganimate.device', 'png')
   if (args$device == 'svglite' && !requireNamespace('svglite', quietly = TRUE)) {
     stop('The svglite package is required to use this device', call. = FALSE)
   }
@@ -275,7 +275,7 @@ draw_frames <- function(plot, frames, device, suffix, ref_frame, ...) {
   files <- paste0(files, suffix)
 
   device <- switch(
-    device,
+    tolower(device),
     jpg = 'jpeg',
     tif = 'tiff',
     device
